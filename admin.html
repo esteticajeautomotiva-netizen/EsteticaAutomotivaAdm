@@ -45,6 +45,9 @@
     <a class="sidebar-item" data-page="configuracoes">
       <span class="icon">⚙️</span> Configurações
     </a>
+    <a class="sidebar-item" data-page="mensagens">
+      <span class="icon">💬</span> Mensagens WhatsApp
+    </a>
   </nav>
 
   <div class="sidebar-footer">
@@ -308,6 +311,53 @@
           <p>Serviço de 60 min gera: 08:00, 09:00, 10:00...</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ---- MENSAGENS WHATSAPP ---- -->
+  <div id="page-mensagens" class="page">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Mensagens WhatsApp</div>
+        <div class="page-subtitle">Edite as mensagens automáticas enviadas aos clientes</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:720px">
+
+      <div class="card">
+        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">
+          ✅ Mensagem de Confirmação
+        </h3>
+        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">
+          Enviada quando o especialista confirma o agendamento.
+        </p>
+        <div class="input-group">
+          <label>Texto da Mensagem</label>
+          <textarea id="msg-confirmado" class="input" rows="5" placeholder="Digite a mensagem de confirmação..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">
+          🎉 Mensagem de Conclusão
+        </h3>
+        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">
+          Enviada quando o especialista conclui o serviço.
+        </p>
+        <div class="input-group">
+          <label>Texto da Mensagem</label>
+          <textarea id="msg-concluido" class="input" rows="5" placeholder="Digite a mensagem de conclusão..."></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn btn-primary btn-lg" id="btn-save-mensagens" onclick="saveMensagens()">
+          💾 Salvar Mensagens
+        </button>
+        <span id="msg-save-status" style="font-size:13px;color:var(--success);display:none">✓ Salvo!</span>
+      </div>
+
     </div>
   </div>
 
