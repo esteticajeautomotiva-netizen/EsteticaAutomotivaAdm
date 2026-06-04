@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>J&E Estética Automotiva — Painel ADM</title>
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest-admin.json">
 <meta name="theme-color" content="#D4AF37">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="stylesheet" href="vars.css">
-<link rel="stylesheet" href="admin.css">
+<link rel="apple-touch-icon" href="icons/icon-192-adm.png">
+<link rel="stylesheet" href="css/vars.css">
+<link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 <div id="toast-container"></div>
@@ -44,9 +44,6 @@
     <hr class="sidebar-divider">
     <a class="sidebar-item" data-page="configuracoes">
       <span class="icon">⚙️</span> Configurações
-    </a>
-    <a class="sidebar-item" data-page="mensagens">
-      <span class="icon">💬</span> Mensagens WhatsApp
     </a>
   </nav>
 
@@ -314,53 +311,6 @@
     </div>
   </div>
 
-  <!-- ---- MENSAGENS WHATSAPP ---- -->
-  <div id="page-mensagens" class="page">
-    <div class="page-header">
-      <div>
-        <div class="page-title">Mensagens WhatsApp</div>
-        <div class="page-subtitle">Edite as mensagens automáticas enviadas aos clientes</div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:20px;max-width:720px">
-
-      <div class="card">
-        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">
-          ✅ Mensagem de Confirmação
-        </h3>
-        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">
-          Enviada quando o especialista confirma o agendamento.
-        </p>
-        <div class="input-group">
-          <label>Texto da Mensagem</label>
-          <textarea id="msg-confirmado" class="input" rows="5" placeholder="Digite a mensagem de confirmação..."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">
-          🎉 Mensagem de Conclusão
-        </h3>
-        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">
-          Enviada quando o especialista conclui o serviço.
-        </p>
-        <div class="input-group">
-          <label>Texto da Mensagem</label>
-          <textarea id="msg-concluido" class="input" rows="5" placeholder="Digite a mensagem de conclusão..."></textarea>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px;align-items:center">
-        <button class="btn btn-primary btn-lg" id="btn-save-mensagens" onclick="saveMensagens()">
-          💾 Salvar Mensagens
-        </button>
-        <span id="msg-save-status" style="font-size:13px;color:var(--success);display:none">✓ Salvo!</span>
-      </div>
-
-    </div>
-  </div>
-
 </main>
 
 <!-- ============================================================ -->
@@ -380,7 +330,7 @@
       <div class="input-group">
         <label>Foto do Serviço</label>
         <div class="photo-upload-area">
-          <input type="file" id="service-foto-input" accept="image/*" capture="environment">
+          <input type="file" id="service-foto-input" accept="image/*" >
           <div class="icon">📷</div>
           <p>Toque para escolher foto ou tirar uma</p>
         </div>
@@ -454,7 +404,7 @@
                         border-radius:50%;display:flex;align-items:center;justify-content:center;
                         font-size:14px;cursor:pointer">
             📷
-            <input type="file" id="spec-foto-input" accept="image/*" capture="user" style="display:none">
+            <input type="file" id="spec-foto-input" accept="image/*"  style="display:none">
           </label>
         </div>
         <div style="flex:1">
@@ -509,10 +459,10 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-<script src="firebase-config.js"></script>
-<script src="cloudinary.js"></script>
-<script src="auth.js"></script>
-<script src="admin.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/cloudinary.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
 
 <script>
 // Data de hoje no dashboard
