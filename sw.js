@@ -1,10 +1,18 @@
-const CACHE_NAME = 'je-adm-v3';
+const CACHE_NAME = 'je-adm-v4';
 const BASE = '/EsteticaAutomotivaAdm';
 const ASSETS = [
-  `${BASE}/index.html`, `${BASE}/login.html`, `${BASE}/admin.html`, `${BASE}/manifest.json`,
-  `${BASE}/vars.css`, `${BASE}/admin.css`,
-  `${BASE}/firebase-config.js`, `${BASE}/cloudinary.js`, `${BASE}/auth.js`, `${BASE}/admin.js`,
-  `${BASE}/icon-192.png`, `${BASE}/icon-512.png`
+  `${BASE}/index.html`,
+  `${BASE}/login.html`,
+  `${BASE}/admin.html`,
+  `${BASE}/manifest.json`,
+  `${BASE}/vars.css`,
+  `${BASE}/admin.css`,
+  `${BASE}/firebase-config.js`,
+  `${BASE}/cloudinary.js`,
+  `${BASE}/auth.js`,
+  `${BASE}/admin.js`,
+  `${BASE}/icon-192.png`,
+  `${BASE}/icon-512.png`
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()).catch(() => self.skipWaiting()));
