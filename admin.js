@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     currentAdmin = await checkSession('admin');
     initAdminUI();
+    // Tag OneSignal para receber notificações de novos agendamentos
+    if (window.OneSignal) {
+      OneSignal.push(function() {
+        OneSignal.User.addTag('role', 'admin');
+      });
+    }
     await Promise.all([
       loadDashboard(),
       loadServices(),
@@ -550,13 +556,9 @@ async function deleteGalleryPhoto(id) {
 // ============================================================
 // CONFIGURAÇÕES
 // ============================================================
-// ============================================================
-// MENSAGENS WHATSAPP
-// ============================================================
-
 const MSG_DEFAULTS = {
   confirmado: `Olá! A J&E ESTÉTICA agradece a preferência. ✅ Seu agendamento foi *confirmado*!\n\nCompareça com até *10 min de antecedência* para vistoria junto ao especialista.\nTolerância de atrasos de até 15 min.`,
-  concluido: `Olá! A J&E ESTÉTICA agradece a preferência. 🎉 O serviço em seu veículo foi *concluído*!\n\nObrigado e volte sempre! 🚗✨`
+  concluido:  `Olá! A J&E ESTÉTICA agradece a preferência. 🎉 O serviço em seu veículo foi *concluído*!\n\nObrigado e volte sempre! 🚗✨`
 };
 
 async function loadMensagens() {
@@ -567,14 +569,11 @@ async function loadMensagens() {
     const elConc = document.getElementById('msg-concluido');
     if (elConf) elConf.value = data.confirmado || MSG_DEFAULTS.confirmado;
     if (elConc) elConc.value = data.concluido  || MSG_DEFAULTS.concluido;
-  } catch(e) {
-    console.error('Erro ao carregar mensagens:', e);
-  }
+  } catch(e) { console.error('Erro ao carregar mensagens:', e); }
 }
 
 async function saveMensagens() {
   const btn = document.getElementById('btn-save-mensagens');
-  const status = document.getElementById('msg-save-status');
   const confirmado = document.getElementById('msg-confirmado')?.value.trim();
   const concluido  = document.getElementById('msg-concluido')?.value.trim();
   if (!confirmado || !concluido) { toast('Preencha as duas mensagens', 'error'); return; }
@@ -582,7 +581,6 @@ async function saveMensagens() {
   try {
     await db.collection('settings').doc('mensagens').set({ confirmado, concluido });
     toast('Mensagens salvas!', 'success');
-    if (status) { status.style.display = 'inline'; setTimeout(() => status.style.display = 'none', 3000); }
   } catch(e) {
     toast('Erro ao salvar: ' + e.message, 'error');
   } finally {
