@@ -19,9 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     currentAdmin = await checkSession('admin');
     initAdminUI();
-    // Tag OneSignal para receber notificações de novos agendamentos
-    if (window.OneSignal) {
-      OneSignal.push(function() {
+    if (window.OneSignalDeferred) {
+      window.OneSignalDeferred.push(async function(OneSignal) {
         OneSignal.User.addTag('role', 'admin');
       });
     }
@@ -556,9 +555,9 @@ async function deleteGalleryPhoto(id) {
 // ============================================================
 // CONFIGURAÇÕES
 // ============================================================
-const MSG_DEFAULTS = {
-  confirmado: `Olá! A J&E ESTÉTICA agradece a preferência. ✅ Seu agendamento foi *confirmado*!\n\nCompareça com até *10 min de antecedência* para vistoria junto ao especialista.\nTolerância de atrasos de até 15 min.`,
-  concluido:  `Olá! A J&E ESTÉTICA agradece a preferência. 🎉 O serviço em seu veículo foi *concluído*!\n\nObrigado e volte sempre! 🚗✨`
+const MSG_DEFAULTS_ADM = {
+  confirmado: `Olá! A J&E ESTÉTICA agradece a preferência. ✅ Seu agendamento foi *confirmado*!`,
+  concluido:  `Olá! A J&E ESTÉTICA agradece a preferência. 🎉 O serviço foi *concluído*!`
 };
 
 async function loadMensagens() {
@@ -567,9 +566,9 @@ async function loadMensagens() {
     const data = doc.exists ? doc.data() : {};
     const elConf = document.getElementById('msg-confirmado');
     const elConc = document.getElementById('msg-concluido');
-    if (elConf) elConf.value = data.confirmado || MSG_DEFAULTS.confirmado;
-    if (elConc) elConc.value = data.concluido  || MSG_DEFAULTS.concluido;
-  } catch(e) { console.error('Erro ao carregar mensagens:', e); }
+    if (elConf) elConf.value = data.confirmado || MSG_DEFAULTS_ADM.confirmado;
+    if (elConc) elConc.value = data.concluido  || MSG_DEFAULTS_ADM.concluido;
+  } catch(e) { console.error(e); }
 }
 
 async function saveMensagens() {
@@ -581,11 +580,8 @@ async function saveMensagens() {
   try {
     await db.collection('settings').doc('mensagens').set({ confirmado, concluido });
     toast('Mensagens salvas!', 'success');
-  } catch(e) {
-    toast('Erro ao salvar: ' + e.message, 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.innerHTML = '💾 Salvar Mensagens'; }
-  }
+  } catch(e) { toast('Erro: ' + e.message, 'error'); }
+  finally { if (btn) { btn.disabled = false; btn.innerHTML = '💾 Salvar Mensagens'; } }
 }
 
 async function loadSettings() {
