@@ -507,7 +507,7 @@ document.getElementById('spec-foto-input')?.addEventListener('change', function(
 });
 
 // PWA
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+// Service Worker gerenciado pelo OneSignal
 </script>
 </body>
 </html>
