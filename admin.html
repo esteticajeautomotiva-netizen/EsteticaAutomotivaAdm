@@ -9,17 +9,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="vars.css">
 <link rel="stylesheet" href="admin.css">
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "990ce880-9691-43a6-a6c9-39f3a702da70",
-      serviceWorkerPath: "sw.js",
-      serviceWorkerParam: { scope: "/EsteticaAutomotivaAdm/" }
-    });
-  });
-</script>
+<!-- Notificações via Firestore onSnapshot -->
 </head>
 <body>
 <div id="toast-container"></div>
@@ -328,20 +318,9 @@
   <div id="page-mensagens" class="page">
     <div class="page-header"><div><div class="page-title">Mensagens WhatsApp</div><div class="page-subtitle">Edite as mensagens automáticas enviadas aos clientes</div></div></div>
     <div style="display:flex;flex-direction:column;gap:20px;max-width:720px">
-      <div class="card">
-        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">✅ Mensagem de Confirmação</h3>
-        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">Enviada quando o especialista confirma o agendamento.</p>
-        <div class="input-group"><label>Texto da Mensagem</label><textarea id="msg-confirmado" class="input" rows="5"></textarea></div>
-      </div>
-      <div class="card">
-        <h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">🎉 Mensagem de Conclusão</h3>
-        <p style="color:var(--text-2);font-size:12px;margin-bottom:16px">Enviada quando o especialista conclui o serviço.</p>
-        <div class="input-group"><label>Texto da Mensagem</label><textarea id="msg-concluido" class="input" rows="5"></textarea></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <button class="btn btn-primary btn-lg" id="btn-save-mensagens" onclick="saveMensagens()">💾 Salvar Mensagens</button>
-        <span id="msg-save-status" style="font-size:13px;color:var(--success);display:none">✓ Salvo!</span>
-      </div>
+      <div class="card"><h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">✅ Confirmação</h3><div class="input-group"><label>Mensagem</label><textarea id="msg-confirmado" class="input" rows="5"></textarea></div></div>
+      <div class="card"><h3 style="font-family:var(--font-display);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:6px">🎉 Conclusão</h3><div class="input-group"><label>Mensagem</label><textarea id="msg-concluido" class="input" rows="5"></textarea></div></div>
+      <button class="btn btn-primary btn-lg" onclick="saveMensagens()">💾 Salvar Mensagens</button>
     </div>
   </div>
 </main>
@@ -515,7 +494,7 @@ document.getElementById('spec-foto-input')?.addEventListener('change', function(
 });
 
 // PWA
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+// Service Worker gerenciado pelo OneSignal
 </script>
 </body>
 </html>
