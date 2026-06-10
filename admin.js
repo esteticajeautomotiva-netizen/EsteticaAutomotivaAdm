@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       loadMensagens(),
       loadAllAppointments()
     ]);
+    setupNovosAgendamentosListenerAdmin();
   } catch (e) {
     console.error('Erro init admin:', e);
   }
@@ -736,4 +737,50 @@ function formatDate(iso) {
 function truncate(str, len) {
   if (!str) return '—';
   return str.length > len ? str.slice(0, len) + '…' : str;
+}
+// ============================================================
+// NOTIFICAÇÃO EM TEMPO REAL — Novos agendamentos via Firestore
+// ============================================================
+function tocarSomAlertaAdmin() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 150, 300].forEach(delay => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + delay / 1000);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay / 1000 + 0.3);
+      osc.start(ctx.currentTime + delay / 1000);
+      osc.stop(ctx.currentTime + delay / 1000 + 0.3);
+    });
+  } catch (e) {}
+}
+
+function setupNovosAgendamentosListenerAdmin() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().catch(() => {});
+  }
+  let primeiraVez = true;
+  db.collection('appointments')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(snapshot => {
+      if (primeiraVez) { primeiraVez = false; return; }
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const apt = change.doc.data();
+          tocarSomAlertaAdmin();
+          toast(
+            `📅 Novo agendamento! ${apt.clienteNome} — ${apt.serviceNome} ${apt.data} às ${apt.hora}`,
+            'info'
+          );
+          loadDashboard();
+          loadAllAppointments(
+            document.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'todos'
+          );
+        }
+      });
+    });
 }
