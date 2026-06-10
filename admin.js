@@ -765,7 +765,6 @@ function setupNovosAgendamentosListenerAdmin() {
   }
   let primeiraVez = true;
   db.collection('appointments')
-    .orderBy('createdAt', 'desc')
     .onSnapshot(snapshot => {
       if (primeiraVez) { primeiraVez = false; return; }
       snapshot.docChanges().forEach(change => {
